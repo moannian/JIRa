@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require('webpack');
 module.exports = merge(common, {
     mode: 'development',
     devServer: {
@@ -19,6 +20,11 @@ module.exports = merge(common, {
             inject: 'body',
             hash: false,
         }),
-        new MiniCssExtractPlugin({})
+        new MiniCssExtractPlugin({}),
+        new webpack.DefinePlugin({
+            "process.env": {
+                REACT_APP_API_URL: "12312"
+            }
+        })
     ],
 });

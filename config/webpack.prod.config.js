@@ -16,9 +16,7 @@ module.exports = merge(common, {
             },
         }),
         new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin({
-
-        })
+        new MiniCssExtractPlugin({})
     ],
     output: {
         filename: 'js/[name]-bundle-[hash:6].js',
@@ -34,9 +32,9 @@ module.exports = merge(common, {
                 },
             },
             extractComments: false,
-            compress: {
-                drop_console: true, // 屏蔽log
-            }
+            // compress: {
+            //     drop_console: true, // 屏蔽log
+            // }
         })],
     },
     devtool: "source-map"

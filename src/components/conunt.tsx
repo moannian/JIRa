@@ -1,26 +1,29 @@
-import React from "react";
-import { connect } from 'react-redux'
-import { Dispatch } from "redux"
+import React, { useEffect } from "react";
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { IReducers } from "../store/reducers/content";
-import { IState } from "../store/reducers/index"
-import { ADD } from "../store/action-types"
-
-let mapStateToProps = (state: IReducers): IState => state.Count;
-let mapDispatchToProps = (dispatch: Dispatch) => ({
-    add(vaule: number) {
-        dispatch({ type: ADD, vaule })
-    }
-})
-
-type TProps = ReturnType<typeof mapStateToProps>
-type TProps2 = ReturnType<typeof mapDispatchToProps>
+import { test } from "../store/action/text"
+import { createSelector } from "reselect"
 
 
-let Count: React.FC<TProps & TProps2> = React.memo((props) => {
+
+let Counts: React.FC<any> = React.memo(() => {
+
+    const selectNumCompletedTodos = createSelector(
+        (state: IReducers) => state.Count.num,
+        (todos) => todos
+    )
+    const disPatch = useDispatch()
+
+    const add = useSelector(selectNumCompletedTodos, shallowEqual)
+
+    useEffect(() => {
+        console.log(add);
+
+    }, [])
     return (
         <>
-            <div>{props.num}</div>
-            <button onClick={() => props.add(1)}>add</button>
+            <div>{add}</div>
+            <button onClick={() => { disPatch(test()) }}>add</button>
         </>
 
     )
@@ -28,4 +31,4 @@ let Count: React.FC<TProps & TProps2> = React.memo((props) => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Count)
+export default Counts
