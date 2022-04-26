@@ -4,6 +4,7 @@ import { AppRouter } from "./Router/index"
 import store from "./store/index"
 import 'antd/dist/antd.css';
 import "./style/index"
+import "./assets/css/app.css"
 const App = () => {
 
     const { Router, skipPath } = AppRouter()

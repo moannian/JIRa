@@ -47,7 +47,7 @@ module.exports = {
 
             {
                 test: /\.(jpg|png|gif)$/,
-                type: "asset",
+                type: "asset/resource",
                 //解析
                 parser: {
                     //转base64的条件
@@ -59,6 +59,10 @@ module.exports = {
                     //打包后对资源的引入，文件命名已经有/img了
                     publicPath: './'
                 },
+            },
+            {
+                test: /\.svg/,
+                type: 'asset/inline'
             },
             {
                 test: /\.html$/,
