@@ -1,10 +1,10 @@
 import React, { Children, useEffect, useRef } from 'react'
 import { Routes, Route, useNavigate, NavigateOptions, useRoutes, RouteObject } from "react-router-dom";
-import Home from "../components/Home"
+import Home from "@/page/home/Home"
 import Error404 from "../components/Error404"
 import Login from "../page/login/login"
 import Register from "../page/register/index"
-import { List } from 'reselect/es/types';
+
 
 
 export const AppRouter = () => {

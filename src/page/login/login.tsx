@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Button, Form, Input, Card, Divider } from "antd"
+import { Button, Form, Input, Card, Divider, message } from "antd"
 import styled from "@emotion/styled";
 import { AppRouter } from "../../Router/index"
 import { LongButton } from "@/components/style/button"
-
+import { setLoginStorage } from "@/tool/localstroage"
 
 
 const logoImg = require("@/assets/image/logo.svg")
@@ -12,11 +12,18 @@ const leftImg = require("@/assets/image/left.svg")
 const rightImg = require("@/assets/image/right.svg")
 export const Login = () => {
     const { skipPath } = AppRouter()
-    const Submit = (vaule: { username: string, password: string }) => {
-        let username = vaule.username;
-        let password = vaule.password
-        console.log(1);
+    const Submit = async (vaule: { Username: string, Password: string }) => {
+        let username = vaule.Username;
+        console.log(vaule);
 
+        let password = vaule.Password
+        try {
+            await setLoginStorage(username);
+            message.success("登录成功")
+            window.location.reload()
+        } catch (error) {
+            alert("登陆失败")
+        }
     }
     return (
         <Background>
