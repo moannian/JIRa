@@ -1,15 +1,12 @@
 import React from 'react';
-import { Table } from 'antd'
-const Tables = () => {
-    const dataSource = [
-        {
-            id: 1,
-            name: "liquan",
-            department: "牛马",
-            functionary: "Liq",
-            createTime: "121"
-        }
-    ];
+import { Table, TableProps } from 'antd'
+import { Iproject } from "./Home"
+
+
+interface IProps extends TableProps<Iproject> {
+}
+
+const Tables = ({ ...props }: IProps) => {
 
     const columns = [
         {
@@ -35,7 +32,7 @@ const Tables = () => {
     ];
     return (
         <>
-            <Table dataSource={dataSource} columns={columns} rowKey={"id"} />;
+            <Table   {...props} columns={columns} rowKey={"id"} />
         </>
     )
 }
