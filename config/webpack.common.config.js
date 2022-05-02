@@ -7,6 +7,8 @@ module.exports = {
     output: {
         filename: 'js/bundle.js',
         path: path.resolve(__dirname, '../dist'),
+        //用于指派所有公共资源的基础路径（处理多级路由刷新的问题）
+        publicPath: "/"
     },
     module: {
         rules: [{

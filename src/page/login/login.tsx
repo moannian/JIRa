@@ -5,13 +5,16 @@ import styled from "@emotion/styled";
 import { AppRouter } from "../../Router/index"
 import { LongButton } from "@/components/style/button"
 import { setLoginStorage } from "@/tool/localstroage"
-
+import { useDocumentTitle } from "@/tool/customHook"
 
 const logoImg = require("@/assets/image/logo.svg")
 const leftImg = require("@/assets/image/left.svg")
 const rightImg = require("@/assets/image/right.svg")
 export const Login = () => {
     const { skipPath } = AppRouter()
+
+    useDocumentTitle("登录")
+
     const Submit = async (vaule: { Username: string, Password: string }) => {
         let username = vaule.Username;
         console.log(vaule);
@@ -20,6 +23,7 @@ export const Login = () => {
         try {
             await setLoginStorage(username);
             message.success("登录成功")
+            skipPath("/home")
             window.location.reload()
         } catch (error) {
             alert("登陆失败")

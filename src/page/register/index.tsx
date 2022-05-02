@@ -4,7 +4,7 @@ import { Button, Form, Input, Card, Divider, message } from "antd"
 import styled from "@emotion/styled";
 import { AppRouter } from "../../Router/index"
 import { LongButton } from "@/components/style/button"
-
+import { useDocumentTitle } from "@/tool/customHook"
 
 
 const logoImg = require("@/assets/image/logo.svg")
@@ -12,6 +12,9 @@ const leftImg = require("@/assets/image/left.svg")
 const rightImg = require("@/assets/image/right.svg")
 export const Register = () => {
     const { skipPath } = AppRouter()
+
+    useDocumentTitle("注册")
+
     const Submit = (vaule: { username: string, password: string, cPassword: string }) => {
         let username = vaule.username;
         let password = vaule.password
@@ -22,6 +25,7 @@ export const Register = () => {
         }
 
     }
+
     return (
         <Background>
             <Logo />

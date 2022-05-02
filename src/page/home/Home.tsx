@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Input, Select } from "antd"
-import { useDebounce, useAsync } from "@/tool/customHook"
+import { useDebounce, useAsync, useDocumentTitle } from "@/tool/customHook"
 import styled from '@emotion/styled';
 import Header from "./header"
 import Table from "./table";
@@ -31,11 +31,10 @@ const Home = () => {
         }
     ]
     let [projectName, setprojectName] = useState<string | null>(null)
-    let [dataList, setDataList] = useState<Iproject[]>([...list])
-    let [test, setTest] = useState(1)
 
 
     let project = useDebounce(projectName, 2000)
+    useDocumentTitle("项目列表", false)
     let { run, data, isLoading } = useAsync<Iproject[]>()
 
     useEffect(() => {
@@ -59,7 +58,7 @@ const Home = () => {
                     </Form.Item>
                     <Form.Item>
                         <Select defaultValue="项目负责人" style={{ width: 120 }}>
-                            {dataList.map(item => {
+                            {data.map(item => {
                                 return (
                                     <Option value={item.functionary} key={item.id}>{item.functionary}</Option>
                                 )

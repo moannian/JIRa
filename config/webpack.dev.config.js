@@ -10,9 +10,18 @@ module.exports = merge(common, {
         static: path.join(__dirname, 'dist'),
         port: 9000,
         compress: true,
-        watchFiles: ['./public/index.html'],
+        watchFiles: ['../public/index.html'],
         hot: true,
-        historyApiFallback: true,
+        historyApiFallback: true
+
+        // proxy: {
+        //     '/': {
+        //         bypass: function(req, res, proxyOptions) {
+        //             return `/assets/index.html`
+        //         }
+
+        //     }
+        // }
     },
     plugins: [
         new HtmlWebpackPlugin({

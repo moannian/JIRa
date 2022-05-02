@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 //处理防抖
 export const useDebounce = (value: string | null, delay: number) => {
     const [content, SetConent] = useState<string | null>(value)
@@ -19,18 +19,15 @@ export const useDebounce = (value: string | null, delay: number) => {
 // 处理异步函数
 interface State<D> {
     error: Error | null,
-    data: D | null,
+    data: D | [],
     state: "padding" | "loading" | "error" | "success",
-}
-const defaulteInitialState: State<null> = {
-    state: "padding",
-    data: null,
-    error: null
 }
 export const useAsync = <D>(initialState?: State<D>) => {
 
     const [state, setState] = useState<State<D>>({
-        ...defaulteInitialState,
+        state: "padding",
+        data: [],
+        error: null,
         ...initialState
     });
 
@@ -46,7 +43,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
     const setError = (error: Error) => {
         setState({
             error,
-            data: null,
+            data: [],
             state: "error"
         })
         console.log(state);
@@ -78,3 +75,19 @@ export const useAsync = <D>(initialState?: State<D>) => {
     }
 }
 
+// 更换页面标题名称
+export const useDocumentTitle = (title: string, keepOnUnmount: Boolean = true) => {
+    const oldTitle = useRef(document.title).current
+    useEffect(() => {
+        document.title = title
+    }, [title])
+    useEffect(() => {
+        return () => {
+            if (!keepOnUnmount) {
+                document.title = oldTitle
+            }
+        }
+    }, [oldTitle, keepOnUnmount])
+}
+
+export const resetRouter = () => window.location.href = window.location.origin

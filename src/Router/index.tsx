@@ -4,9 +4,9 @@ import Home from "@/page/home/Home"
 import Error404 from "../components/Error404"
 import Login from "../page/login/login"
 import Register from "../page/register/index"
-
-
-
+import Project from "@/page/home/project/index"
+import KanBanSystem from "@/page/kanbanSystem"
+import TaskBar from "@/page/taskBar"
 export const AppRouter = () => {
     const navigate = useNavigate();
 
@@ -43,23 +43,32 @@ export const AppRouter = () => {
     //     return routerOptionList
     // }
     // type text = typeof list[number]["path"]
-    type option = "/home" | "/login" | "/register"
+    type option = "/home" | "/login" | "/register" | any
     function skipPath(to: option, state?: NavigateOptions) {
         navigate(to, state)
     }
 
-
+    const ProjectRouter = (
+        <>
+            <Routes>
+                <Route path='/home/:id/kanBanSystem' element={<KanBanSystem />}></Route>
+            </Routes>
+        </>
+    )
     const Router = (
         <>
             <Routes>
                 <Route path='/home' element={<Home></Home>}></Route>
+                <Route path='/home/:id/*' element={<Project />}></Route>
                 <Route path='/login' element={<Login></Login>}></Route>
                 <Route path='/register' element={<Register></Register>}></Route>
                 <Route path='*' element={<Error404></Error404>}></Route>
+                <Route path='/home/:id/kanBanSystem' element={<KanBanSystem />}></Route>
             </Routes>
 
         </>)
 
 
-    return { skipPath, Router }
+
+    return { skipPath, Router, ProjectRouter }
 }
