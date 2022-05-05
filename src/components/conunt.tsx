@@ -16,10 +16,6 @@ let Counts: React.FC<any> = React.memo(() => {
 
     const add = useSelector(selectNumCompletedTodos, shallowEqual)
 
-    useEffect(() => {
-        console.log(add);
-
-    }, [])
     return (
         <>
             <div>{add}</div>

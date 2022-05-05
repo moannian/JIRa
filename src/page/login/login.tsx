@@ -17,7 +17,7 @@ export const Login = () => {
 
     const Submit = async (vaule: { Username: string, Password: string }) => {
         let username = vaule.Username;
-        console.log(vaule);
+        ;
 
         let password = vaule.Password
         try {

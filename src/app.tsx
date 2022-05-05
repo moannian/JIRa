@@ -20,7 +20,7 @@ const App = () => {
 
     const { Router, skipPath } = AppRouter();
     let loginToken = getLoginStorage();
-    console.log(window.location.pathname);
+
 
     useEffect(() => {
         if (!loginToken) {

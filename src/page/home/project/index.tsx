@@ -10,10 +10,7 @@ import { AppRouter } from "@/Router/index"
 
 const Project = React.memo(() => {
     const { ProjectRouter, skipPath } = AppRouter()
-    useEffect(() => {
-        console.log(window.location, "测试")
 
-    }, [])
     return (
         <>
             <Header />

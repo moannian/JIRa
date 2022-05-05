@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 //处理防抖
-export const useDebounce = (value: string | null, delay: number) => {
-    const [content, SetConent] = useState<string | null>(value)
+export const useDebounce = <T>(value: T, delay: number) => {
+    const [content, SetConent] = useState(value)
 
     useEffect(() => {
         let timeout = setTimeout(() => {
@@ -22,6 +22,9 @@ interface State<D> {
     data: D | [],
     state: "padding" | "loading" | "error" | "success",
 }
+
+
+
 export const useAsync = <D>(initialState?: State<D>) => {
 
     const [state, setState] = useState<State<D>>({
@@ -30,36 +33,44 @@ export const useAsync = <D>(initialState?: State<D>) => {
         error: null,
         ...initialState
     });
-
+    const [retry, setRetry] = useState(() => () => { })
     const setData = (data: D) => {
         setState({
             data,
             state: "success",
             error: null
         })
-        console.log(state);
+
 
     };
+
     const setError = (error: Error) => {
         setState({
             error,
             data: [],
             state: "error"
         })
-        console.log(state);
+
     }
     // 处理异步的请求
-    const run = (promise: Promise<D>) => {
+    const run = (promise: Promise<D>, runConfig?: { retry: Promise<D> }) => {
         if (!promise || !promise.then) {
             throw new Error("请传入异步的请求")
         }
+
+        setRetry(() => () => {
+            if (runConfig?.retry) {
+                run(runConfig?.retry, runConfig)
+            }
+        })
+
         setState({
             ...state,
             state: 'loading',
         })
         return promise.then(data => {
-            console.log(data);
             setData(data);
+
             return data
         }).catch(error => {
             setError(error)
@@ -71,6 +82,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
         setData,
         setError,
         run,
+        retry,
         ...state
     }
 }
