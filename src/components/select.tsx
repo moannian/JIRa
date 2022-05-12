@@ -26,11 +26,11 @@ export const UserSelect: React.FC<ISelectProps> = React.memo((props) => {
             {...resetProps}
             style={{ width: 120 }}>
             value={1}
-            {data.map(item => {
+            {/* {data.map(item => {
                 return (
                     <Option value={item.projectID} key={item.id}>{item.functionary}</Option>
                 )
-            })}
+            })} */}
         </Select >
     )
 })

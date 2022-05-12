@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useImmerState } from "@shrugsy/use-immer-state"
 import { Form, Input } from "antd"
-import { useDebounce, useAsync, useDocumentTitle } from "@/tool/customHook";
+import { useDebounce, useDocumentTitle } from "@/tool/customHook";
 import { useQueryParam } from "@/tool/url"
 import { UserSelect } from "@/components/select"
 import styled from '@emotion/styled';
 import Header from "./header"
 import Table from "./table";
-import { list } from "@/mock/index"
 import { Iproject } from "@/common"
-
+import request from "@/http/index"
+import useHttp from "@/http/usehttp"
 
 const Home = () => {
 
@@ -24,19 +24,14 @@ const Home = () => {
     let project = useDebounce(search, 500)
     useDocumentTitle("项目列表", false)
 
-    let { run, data, isLoading, retry } = useAsync<Iproject[]>();
+    const { run, data, retry } = useHttp<Iproject[]>()
 
+    let fetch = () => request({ url: "api/projectlist" })
     useEffect(() => {
-        if (project.name && project.projectID) {
-            run(Promise.resolve(list.filter(item => item.projectID === Number(project.projectID) && item.name === project.name)))
-        } else if (project.projectID) {
-            run(Promise.resolve(list.filter(item => item.projectID === Number(project.projectID))))
-        } else if (project.name) {
-            run(Promise.resolve(list.filter(item => item.name === project.name)))
-        } else {
-            run(Promise.resolve(list))
-        }
-    }, [search, project])
+        run(fetch(), {
+            retry: fetch
+        })
+    }, [run])
 
     useEffect(() => {
         setParms({ name: search?.name, projectID: search?.projectID })
@@ -62,7 +57,7 @@ const Home = () => {
                             }}></UserSelect>
                     </Form.Item>
                 </Form>
-                <Table loading={isLoading} dataSource={data || []} refresh={retry} />
+                <Table dataSource={data.data || []} refresh={retry} />
             </Container>
         </>
     )

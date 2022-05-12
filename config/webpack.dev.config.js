@@ -12,16 +12,14 @@ module.exports = merge(common, {
         compress: true,
         watchFiles: ['../public/index.html'],
         hot: true,
-        historyApiFallback: true
-
-        // proxy: {
-        //     '/': {
-        //         bypass: function(req, res, proxyOptions) {
-        //             return `/assets/index.html`
-        //         }
-
-        //     }
-        // }
+        historyApiFallback: true,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8080',
+                changeOrigin: true,
+                pathRewrite: { '/api': '' } // 把/api 替换为空
+            }
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({

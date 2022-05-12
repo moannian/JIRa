@@ -1,21 +1,14 @@
-import qs from "qs";
-const api = "api请求地址";
-interface Config extends RequestInit {
-    token?: string,
-    data?: Object
+import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
+
+const request = (config: AxiosRequestConfig) => {
+    const instance = axios.create({
+        baseURL: "http://localhost:9000",
+        timeout: 5000,
+        method: 'get'
+    })
+    instance.interceptors.response.use((response) => {
+        return response.data
+    })
+    return instance(config)
 }
-export const http = (endpoint: string, { data, token, headers, ...customConfig }: Config) => {
-    const config: Config = {
-        method: "GET",
-        headers: {
-            Authorization: token ? `Bearer ${token}` : ``,
-            "Content-Type": data ? "application/json" : ""
-        }
-    }
-    if (config.method.toUpperCase() === "GET") {
-        endpoint += `?${qs.stringify(data)}`
-    } else {
-        config.body = JSON.stringify(data || {})
-    }
-    return window.fetch(`${api}/${endpoint}`, config)
-}
+export default request

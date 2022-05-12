@@ -3,30 +3,36 @@ import { Table, TableProps } from 'antd'
 import { Iproject } from "@/common"
 import { AppRouter } from "@/Router/index"
 import { Collect } from "@/components/collect"
-import { useEditProject } from "@/http/projectRequestCumtomHook"
+import request from "@/http"
 interface IProps extends TableProps<Iproject> {
-    refresh?: () => void
+    refresh: () => void
 }
 
 const Tables = ({ ...props }: IProps) => {
     const { refresh } = props
-    const { mutate } = useEditProject()
     const { skipPath } = AppRouter()
     const columns = [
         {
             title: <Collect clecked={true} disabled={true} />,
             render(value: unknown, project: Iproject) {
                 return (
-                    <Collect clecked={project.pin} onChange={() => {
-                        mutate({ id: project.id, pin: !project.pin })
-                        refresh
+                    <Collect clecked={Boolean(project.pin)} onChange={() => {
+                        request({
+                            url: 'api/projectlist',
+                            method: "PUT",
+                            data: {
+                                id: project.id,
+                                pin: Number(!Boolean(project.pin))
+                            }
+                        })
+                        refresh();
                     }}></Collect>
                 )
             }
         },
         {
             title: '名称',
-            dataIndex: 'name',
+            dataIndex: 'project',
             render(value: string, project: Iproject) {
                 return (
                     <a onClick={() => { skipPath(String(project.id)) }}>{value}</a>
@@ -40,8 +46,8 @@ const Tables = ({ ...props }: IProps) => {
         },
         {
             title: '负责人',
-            dataIndex: 'functionary',
-            key: 'functionary',
+            dataIndex: 'principal',
+            key: 'principal',
         },
         {
             title: "创建时间",
