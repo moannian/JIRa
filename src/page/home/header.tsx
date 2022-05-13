@@ -1,13 +1,17 @@
 import React from 'react';
-import { Button, Dropdown, Menu, Space } from "antd"
+import { Dropdown, Menu, Space } from "antd"
 import styled from "@emotion/styled"
 import { Row } from "@/components/lib"
-import { getLoginStorage, remoteLoginStorage } from "@/tool/localstroage"
+import { getLoginStorage, remoteLoginStorage } from "@/tool/localstroage";
+import ProjectPopiver from "./peojectPopover"
+
 
 let logo = require("@/assets/image/software-logo.svg")
 
+
 const Header = () => {
     const username = getLoginStorage()
+
     const menu = (
         <Menu>
             <Menu.Item onClick={() => remoteLoginStorage()}>退出登录</Menu.Item>
@@ -18,7 +22,7 @@ const Header = () => {
             <Head>
                 <HeaderLeft gap={3}>
                     <embed type="image/svg+xml" src={logo}></embed>
-                    <h3>项目</h3>
+                    <ProjectPopiver />
                     <h3>用户</h3>
                 </HeaderLeft>
                 <HeaderRight>

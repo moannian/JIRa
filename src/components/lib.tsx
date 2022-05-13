@@ -1,4 +1,5 @@
 import React from "react"
+
 import styled from "@emotion/styled"
 import { Button, Spin, Typography } from "antd";
 /**
@@ -6,10 +7,11 @@ import { Button, Spin, Typography } from "antd";
  */
 export const Row = styled.div<{
     gap?: number,
-    bottom?: number
+    bottom?: number,
 }>`
     display:flex;
     align-items:center;
+    justify-content:justify;
     margin-bottom:${props => props.bottom ? props.bottom + "rem" : 0} ;
     >*{
         margin-top:0 !important;

@@ -39,6 +39,8 @@ const useHttp = <D>() => {
         })
         return promise.then(res => {
             if (mountedRef) {
+                console.log(res.data, "res.data");
+
                 setSuccess(res.data)
             }
             return res.data
@@ -46,6 +48,6 @@ const useHttp = <D>() => {
             setError(err)
         })
     }, [])
-    return { data: data, run, setError, retry }
+    return { data: data.data, run, setError, retry }
 }
 export default useHttp

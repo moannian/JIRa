@@ -1,13 +1,13 @@
 import { combineReducers, ReducersMapObject, AnyAction, Reducer } from "redux";
-import Count, { IState } from "./index";
-
-import { connectRouter } from "connected-react-router";
-import history from "../../history"
+import Count, { IState } from "./reducers/index";
+import CreateModel, { ICreateModelState } from "./reducers/createModel"
 export interface IReducers {
     Count: IState,
+    CreateModel: ICreateModelState
 }
-const reducers: ReducersMapObject<IReducers, AnyAction> = {
+const reducers: ReducersMapObject<IReducers, any> = {
     Count,
+    CreateModel
 }
 export type CombinedState = {
     [k in keyof typeof reducers]: ReturnType<typeof reducers[k]>

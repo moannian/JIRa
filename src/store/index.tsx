@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, StoreEnhancer, StoreEnhancerStoreCreator, Store } from "redux";
 import thunk from "redux-thunk"
-import reducer from "./reducers/content"
+import reducer from "./content"
 
 import { routerMiddleware } from "connected-react-router"
 import histiry from '../history'

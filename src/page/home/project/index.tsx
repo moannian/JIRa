@@ -13,8 +13,6 @@ const Project = React.memo(() => {
 
     return (
         <>
-            <Header />
-
             <DIV>
                 <div>
                     <Link to="">看板</Link>

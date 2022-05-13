@@ -1,14 +1,17 @@
 import React from 'react';
-import { Table, TableProps } from 'antd'
+import { Table, TableProps, Button, Dropdown, Menu } from 'antd'
+import { useDispatch } from "react-redux"
+import { openProjectCreateModel } from "@/store/action/ProjectCeateModel"
 import { Iproject } from "@/common"
 import { AppRouter } from "@/Router/index"
 import { Collect } from "@/components/collect"
 import request from "@/http"
 interface IProps extends TableProps<Iproject> {
-    refresh: () => void
+    refresh: () => void,
 }
 
 const Tables = ({ ...props }: IProps) => {
+    const dispatch = useDispatch()
     const { refresh } = props
     const { skipPath } = AppRouter()
     const columns = [
@@ -53,6 +56,24 @@ const Tables = ({ ...props }: IProps) => {
             title: "创建时间",
             dataIndex: "createTime",
             key: "createTime"
+        }, {
+            title: "操作",
+            render: () => {
+                return <Dropdown overlay={
+                    <Menu>
+                        <Menu.Item>
+                            <Button
+                                type={"link"}
+                                style={{ padding: 0 }}
+                                onClick={() => dispatch(openProjectCreateModel("修改项目"))}
+                            >修改</Button>
+                        </Menu.Item>
+                        <Menu.Item>删除</Menu.Item>
+                    </Menu>
+                }>
+                    <Button type={"link"}>...</Button>
+                </Dropdown>
+            }
         }
     ];
     return (

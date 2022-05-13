@@ -15,22 +15,24 @@ const { Option } = Select;
 const toNumber = (value: unknown) => isNaN(Number(value)) ? 0 : Number(value);
 
 interface ISelectProps extends SelectProps {
-    data: { id: number, functionary: string, projectID: number }[],
+    data: { id: number, name: string, principalID: string }[],
     defaultValue: string
 }
 export const UserSelect: React.FC<ISelectProps> = React.memo((props) => {
     const { data, defaultValue, ...resetProps } = props
+    console.log(data);
+
     return (
         <Select
             defaultValue={defaultValue}
             {...resetProps}
             style={{ width: 120 }}>
             value={1}
-            {/* {data.map(item => {
+            {data.map(item => {
                 return (
-                    <Option value={item.projectID} key={item.id}>{item.functionary}</Option>
+                    <Option value={item?.principalID} key={item?.id}>{item?.name}</Option>
                 )
-            })} */}
+            })}
         </Select >
     )
 })
