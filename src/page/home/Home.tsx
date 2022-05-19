@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useImmerState } from "@shrugsy/use-immer-state"
 import { Button, Form, Input } from "antd"
-import { useDispatch } from "react-redux"
-import { openProjectCreateModel } from "@/store/action/ProjectCeateModel"
 import { useDebounce, useDocumentTitle } from "@/tool/customHook";
-import { useQueryParam } from "@/tool/url"
+import { useQueryParam, useProjectModal } from "@/tool/url"
 import { UserSelect } from "@/components/select"
 import { Row } from "@/components/lib"
 import styled from '@emotion/styled';
@@ -15,11 +13,10 @@ import request from "@/http/index"
 import useHttp from "@/http/usehttp"
 import CreateModel from "./createModel"
 
-import { OPEN_CREATE_MODEL } from "@/store/action-types"
+
 
 
 const Home = () => {
-    const dispatch = useDispatch()
     const { ui } = CreateModel()
     const [search, setSearch] = useImmerState<{
         name: string,
@@ -30,6 +27,7 @@ const Home = () => {
     })
     let [parms, setParms] = useQueryParam(["name", "projectID"])
     let project = useDebounce(search, 500)
+    const { open } = useProjectModal()
     useDocumentTitle("项目列表", false)
 
     const { run, data, retry } = useHttp<Iproject[]>()
@@ -40,7 +38,7 @@ const Home = () => {
         run(fetch(), {
             retry: fetch
         })
-    }, [run])
+    }, [])
 
     let principalFetch = () => request({ url: "api/principallist" })
     useEffect(() => {
@@ -58,7 +56,7 @@ const Home = () => {
             <Container>
                 <Row style={{ "justifyContent": "space-between" }} >
                     <h1>项目列表</h1>
-                    <Button onClick={() => dispatch(openProjectCreateModel("创建项目"))}>创建项目</Button>
+                    <Button onClick={() => open("创建项目")}>创建项目</Button>
                 </Row>
                 <Form layout={"inline"}>
                     <Form.Item>

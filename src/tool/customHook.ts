@@ -10,8 +10,6 @@ export const useDebounce = <T>(value: T, delay: number) => {
         return () => clearTimeout(timeout)
     }, [value])
 
-
-
     return content;
 
 }
@@ -46,3 +44,7 @@ export const useMountedRef = () => {
     }, [])
     return mounted
 }
+
+
+// 类型守卫
+export let typeGuard = <D,>(value: any): value is D => value

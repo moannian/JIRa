@@ -2,9 +2,9 @@ export type Row = string | number;
 export interface Iproject {
     pin: boolean,
     id: number,
-    name: string,
+    project: string,
     department: string,
-    functionary: string,
+    principal: string,
     createTime: string
     projectID: number
 }

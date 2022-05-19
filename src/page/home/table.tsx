@@ -1,17 +1,16 @@
 import React from 'react';
-import { Table, TableProps, Button, Dropdown, Menu } from 'antd'
-import { useDispatch } from "react-redux"
-import { openProjectCreateModel } from "@/store/action/ProjectCeateModel"
+import { Table, TableProps, Button, Dropdown, Menu, message } from 'antd'
 import { Iproject } from "@/common"
 import { AppRouter } from "@/Router/index"
 import { Collect } from "@/components/collect"
+import { useProjectModal } from "@/tool/url"
 import request from "@/http"
 interface IProps extends TableProps<Iproject> {
     refresh: () => void,
 }
 
 const Tables = ({ ...props }: IProps) => {
-    const dispatch = useDispatch()
+    const { open } = useProjectModal()
     const { refresh } = props
     const { skipPath } = AppRouter()
     const columns = [
@@ -21,10 +20,9 @@ const Tables = ({ ...props }: IProps) => {
                 return (
                     <Collect clecked={Boolean(project.pin)} onChange={() => {
                         request({
-                            url: 'api/projectlist',
+                            url: `api/projectlist/${project.id}`,
                             method: "PUT",
                             data: {
-                                id: project.id,
                                 pin: Number(!Boolean(project.pin))
                             }
                         })
@@ -58,17 +56,30 @@ const Tables = ({ ...props }: IProps) => {
             key: "createTime"
         }, {
             title: "操作",
-            render: () => {
+            render: (value: string, project: Iproject) => {
                 return <Dropdown overlay={
                     <Menu>
                         <Menu.Item>
                             <Button
                                 type={"link"}
                                 style={{ padding: 0 }}
-                                onClick={() => dispatch(openProjectCreateModel("修改项目"))}
+                                onClick={() => { open("测试", project.id) }}
                             >修改</Button>
                         </Menu.Item>
-                        <Menu.Item>删除</Menu.Item>
+                        <Menu.Item>
+                            <Button
+                                type={"link"}
+                                style={{ padding: 0 }}
+                                onClick={async () => {
+                                    await request({
+                                        url: `api/projectlist/${project.id}`,
+                                        method: "delete"
+                                    })
+                                    refresh();
+                                    message.success("删除成功")
+                                }}
+                            >删除</Button>
+                        </Menu.Item>
                     </Menu>
                 }>
                     <Button type={"link"}>...</Button>

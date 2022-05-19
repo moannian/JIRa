@@ -1,13 +1,12 @@
 import React from "react";
 import { Button, Divider, List, Popover, Typography } from "antd";
-import { useDispatch } from "react-redux"
-import { openProjectCreateModel } from "@/store/action/ProjectCeateModel"
+import { useProjectModal } from "@/tool/url"
 
 import styled from "@emotion/styled"
 import createMode from "./createModel"
 
 const ProjectPopover = () => {
-    const dispatch = useDispatch()
+    const { open } = useProjectModal()
     const content = (<Container>
         <Typography.Text type={"secondary"}>收藏项目</Typography.Text>
         <List>
@@ -18,10 +17,10 @@ const ProjectPopover = () => {
         <Button
             type={"link"}
             style={{ padding: 0 }}
-            onClick={() => { dispatch(openProjectCreateModel("创建项目")) }}>
+            onClick={() => { open("创建项目") }}>
             创建目标
         </Button>
-    </Container>)
+    </Container >)
     return <Popover placement={"bottom"} content={content}>
         项目
     </Popover>

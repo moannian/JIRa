@@ -1,5 +1,11 @@
 import { useSearchParams, URLSearchParamsInit } from "react-router-dom"
 import { useState, useEffect, useCallback } from "react"
+import { useDispatch } from "react-redux"
+import { openProjectCreateModel, closeProjectCreateModel } from "@/store/action/ProjectCeateModel"
+import useHttp from "@/http/usehttp";
+import { Iproject } from "@/common";
+import request from "@/http";
+
 
 //判断某一个对象是否为空
 export const isVoid = (value: unknown) => value === undefined || value === null || value === "";
@@ -40,4 +46,33 @@ export const useQueryParam = <K extends string>(keys: K[]) => {
         }
     ] as const
 
+}
+
+export const useProjectModal = () => {
+    const dispatch = useDispatch()
+    const [{ projectCreate, projectId }, setProjectCreate] = useQueryParam(["projectCreate", "projectId"]);
+    const { run, data } = useHttp<Iproject>()
+
+    const open = (title: string, id?: number) => {
+        dispatch(openProjectCreateModel(title))
+        setProjectCreate({
+            projectCreate: true,
+            projectId: id
+        })
+        if (projectId) {
+            run(request({ url: `api/projectlist/4` }))
+        }
+    }
+    const close = () => {
+        dispatch(closeProjectCreateModel())
+        setProjectCreate({ projectCreate: undefined })
+    }
+
+
+    return {
+        close,
+        open,
+        projectId,
+        data
+    }
 }

@@ -38,3 +38,15 @@ const FullPage = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+
+export const CustomButtom = styled(Button) <{
+    width?: number,
+    height?: number
+}>`
+position:relative ;
+left:50%;
+transform:translateX(-50%);
+width:${props => props.width ? props.width + "rem" : null};
+height: ${props => props.width ? props.height + "rem" : null};
+`

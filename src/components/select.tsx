@@ -20,17 +20,16 @@ interface ISelectProps extends SelectProps {
 }
 export const UserSelect: React.FC<ISelectProps> = React.memo((props) => {
     const { data, defaultValue, ...resetProps } = props
-    console.log(data);
-
     return (
         <Select
+
             defaultValue={defaultValue}
             {...resetProps}
             style={{ width: 120 }}>
             value={1}
             {data.map(item => {
                 return (
-                    <Option value={item?.principalID} key={item?.id}>{item?.name}</Option>
+                    <Option value={item?.principalID} key={item?.id} >{item?.name}</Option>
                 )
             })}
         </Select >

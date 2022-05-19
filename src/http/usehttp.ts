@@ -1,17 +1,21 @@
 import { useCallback, useState } from "react";
 import { AxiosPromise } from "axios"
 import { useMountedRef } from "@/tool/customHook"
+import { Iproject } from "@/common/index"
+import { useQuery } from "react-query";;
 interface IState<D> {
     error: Error | null,
-    data: D | [],
+    data?: D | [],
     state: "padding" | "loading" | "error" | "success",
 }
-const useHttp = <D>() => {
+
+const useHttp = <D>(prosData?: { data: D }) => {
     const mountedRef = useMountedRef()
     const [data, setData] = useState<IState<D>>({
         state: "loading",
         data: [],
-        error: null
+        error: null,
+        ...prosData
     })
     const [retry, setRetry] = useState(() => () => { })
     let setSuccess = (data: D) => {
@@ -38,9 +42,8 @@ const useHttp = <D>() => {
             }
         })
         return promise.then(res => {
-            if (mountedRef) {
-                console.log(res.data, "res.data");
 
+            if (mountedRef) {
                 setSuccess(res.data)
             }
             return res.data
@@ -51,3 +54,7 @@ const useHttp = <D>() => {
     return { data: data.data, run, setError, retry }
 }
 export default useHttp
+
+export const useProjects = (parms: Partial<Iproject>) => {
+    return useQuery("projects", () => 123)
+}
