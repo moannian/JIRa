@@ -59,13 +59,10 @@ export const useProjectModal = () => {
             projectCreate: true,
             projectId: id
         })
-        if (projectId) {
-            run(request({ url: `api/projectlist/4` }))
-        }
     }
     const close = () => {
         dispatch(closeProjectCreateModel())
-        setProjectCreate({ projectCreate: undefined })
+        setProjectCreate({ projectCreate: undefined, projectId: "2" })
     }
 
 

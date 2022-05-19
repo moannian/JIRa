@@ -10,45 +10,28 @@ import { Iproject } from "@/common";
 import request from "@/http";
 import { CustomButtom } from "@/components/lib";
 import { getCurrentTime } from "@/tool/day"
+import CustomForm from "@/components/libs/from"
+const { Item } = Form
 
-
-const CreateModel = (props?: any) => {
+const CreateModel = () => {
     const state = useSelector<IReducers, ICreateModelState>(state => state.CreateModel);
     const { close, projectId } = useProjectModal()
     let { data, run } = useHttp<Iproject>()
     const { run: principalRun, data: principalData } = useHttp<{ name: string, principalID: string }[]>()
+
     let principalFetch = () => request({ url: "api/principallist" })
+
     useEffect(() => {
         principalRun(principalFetch())
-
     }, [])
-    const { Item } = Form
-    const [form] = Form.useForm()
+
     useEffect(() => {
         if (projectId) {
             run(request({ url: `api/projectlist/${projectId}` }))
         } else {
-            form.setFieldsValue({
-                project: "",
-                department: "",
-                principal: ""
-            })
         }
-
     }, [projectId]);
 
-
-    useEffect(() => {
-        form.setFieldsValue(data)
-    }, [data])
-
-
-
-    const formItemLayout = {
-        labelCol: {
-            sm: { span: 1 },
-        },
-    };
 
     const finish = async (e: any) => {
         if (projectId) {
@@ -87,12 +70,9 @@ const CreateModel = (props?: any) => {
         onClose={() => { close() }}
         placement={"left"}
         title={state.title}>
-
-        <Form
-            form={form}
-            initialValues={props}
+        <CustomForm
+            data={data as {}}
             onFinish={finish}
-            {...formItemLayout}
         >
             <Item label={"名称"} name="project">
                 <Input />
@@ -112,7 +92,8 @@ const CreateModel = (props?: any) => {
             <Item >
                 <CustomButtom width={30} height={4} type={"primary"} htmlType={"submit"}>测试</CustomButtom>
             </Item>
-        </Form>
+        </CustomForm>
+
     </Drawer>)
     return { ui }
 }
